@@ -1,0 +1,10 @@
+<h2>User mail : <%= @user.email %></h2><br>
+<h3>Username : <%= @user.username %></h3>
+
+<ul>
+  <% @articles.each do |article| %>
+    <li>
+      <%= link_to article.title, article_path(article) %> created at <%= article.created_at %>
+    </li>
+  <% end %>
+</ul>

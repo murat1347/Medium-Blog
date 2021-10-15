@@ -1,0 +1,5 @@
+<h1><%= @comment.title %></h1>
+<p><%= @comment.content %></p>
+
+
+<%= link_to 'Accept', article_comment_accept_path(@comment.article, @comment), method: :patch %>

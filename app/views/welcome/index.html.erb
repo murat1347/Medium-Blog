@@ -1,0 +1,15 @@
+<html>
+<br>
+<br>
+<br>
+<% if current_user.nil? %>
+  <% @articles.each do |article| %>
+    <%= article.title %> by <%= article.user.username %> <%= article.created_at %>
+  <% end %>
+<% else %>
+  <% @articles.each do |article| %>
+    <%= link_to article.title, article_path(article.id) %> by <%= article.user.username %> <br>
+  <% end %>
+<% end %>
+
+</html>
