@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 class CommentsController < ApplicationController
   before_action :authenticate_user!
-
+  before_action :is_article_user?
   def create
     @article = Article.find(params[:article_id])
     @comment = @article.comments.create(comment_params)
     @comment.update!(user: current_user)
 
-    redirect_to @article
+    redirect_to dashboard_path
   end
 
   def show
@@ -26,6 +26,16 @@ class CommentsController < ApplicationController
     flash[:notice] = 'Process successfully.'
     redirect_to dashboard_path
   end
+
+  def is_article_user?
+    unless Article.find(params[:article_id]).user == current_user
+      respond_to do |format|
+        format.html { redirect_to root_path, notice: "You don't permission to page" }
+      end
+    end
+  end
+
+
 
   private
 
