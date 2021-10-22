@@ -1,0 +1,15 @@
+<h1>Your timeline</h1>
+
+<ul>
+  <% @articles.each do |article| %>
+    <% if user_signed_in? %>
+      <li>
+        <%= link_to article.title, article_path(article) %>  <%= article.content.truncate(100) %>
+        by <%= article.user.username %> added by
+        <%= link_to article.user.email, user_path(article.user) %>
+      </li>
+    <% else %>
+      <li><%= article.title %> by <%= article.user %></li>
+    <% end %>
+  <% end %>
+</ul>

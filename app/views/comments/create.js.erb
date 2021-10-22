@@ -1,0 +1,9 @@
+<% if @comment.errors.any? %>
+$("#info").removeClass().addClass("alert alert-danger")
+$("#info").html("Title and content cannot be empty");
+<% else %>
+$("#info").removeClass().addClass("alert alert-success")
+$(".comments").append("<%= escape_javascript(render(@comment))%>");
+$("#info").html("Your message added. <%=@comment.user.username%>");
+$('#comment_form').trigger("reset");
+<% end %>

@@ -1,13 +1,35 @@
 # frozen_string_literal: true
 class CommentsController < ApplicationController
   before_action :authenticate_user!
-  before_action :is_article_user?
+
   def create
     @article = Article.find(params[:article_id])
-    @comment = @article.comments.create(comment_params)
-    @comment.update!(user: current_user)
+    @comment = @article.comments.build(comment_params)
+    @comment.user = current_user
 
-    redirect_to dashboard_path
+    respond_to do |format|
+      if @comment.save
+        format.js
+      else
+        format.html { render action: "new" }
+        format.js
+      end
+    end
+  end
+
+  def update
+    @comment = Comment.find(params[:id])
+
+    if @comment.update_attributes(:status => true)
+      redirect_to dashboard_path, notice: 'Comment status was successfully updated.'
+    else
+      render 'edit'
+    end
+  end
+
+  def edit
+    @comment = Comment.find(params[:id])
+    @article = Article.find(params[:article_id])
   end
 
   def show
@@ -27,19 +49,21 @@ class CommentsController < ApplicationController
     redirect_to dashboard_path
   end
 
-  def is_article_user?
-    unless Article.find(params[:article_id]).user == current_user
-      respond_to do |format|
-        format.html { redirect_to root_path, notice: "You don't permission to page" }
-      end
+  def deny
+    article = Article.find(params[:article_id])
+    comment = article.comments.find(params[:comment_id])
+    if comment.accepted
+      comment.update!(accepted: true)
+    else
+      comment.update!(accepted: false)
     end
+    flash[:notice] = 'Process successfully.'
+    redirect_to dashboard_path
   end
-
-
 
   private
 
   def comment_params
-    params.require(:comment).permit(:title, :content)
+    params.require(:comment).permit(:title, :content,:user_id)
   end
 end

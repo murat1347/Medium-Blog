@@ -1,7 +1,7 @@
 class WelcomeController < ApplicationController
 
   def index
-    @articles= Article.visible
+    redirect_to feed_users_path if current_user
   end
 
   private

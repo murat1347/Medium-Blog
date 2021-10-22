@@ -1,12 +1,21 @@
 Rails.application.routes.draw do
   devise_for :users
   resources :articles do
+
+    patch :vote_plus, on: :member
+    patch :vote_minus, on: :member
     resources :comments do
       patch '/accept', to: 'comments#accept', as: 'accept'
     end
   end
-  resources :users
+
   root 'welcome#index'
-  get 'dashboard', to:'dashboard#index',as: 'dashboard'
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  get 'dashboard', to: 'dashboard#index', as: 'dashboard'
+
+  resources :users do
+    get :feed, on: :collection
+  end
+
+  resources :relationships, only: [:create, :destroy]
+
 end

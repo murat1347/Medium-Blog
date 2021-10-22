@@ -1,0 +1,14 @@
+<div class="card mb-3">
+  <div class="card-header">
+    Username:<%= comment.user.username %>
+    <span class="badge badge-pill badge-info float-right">
+        <%= comment.accepted ? 'Approved comment' : 'Waiting for approval' %>
+      </span>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title"><%= comment.title %></h5>
+    <p class="card-text">
+      <%= comment.content %>
+    </p>
+  </div>
+</div>

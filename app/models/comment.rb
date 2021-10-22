@@ -3,6 +3,5 @@ class Comment < ApplicationRecord
   belongs_to :article
 
   scope :accepteds, -> { where(accepted: true) }
-
-  #  scope :accepteds_by_user, ->(user_id) { where('accepted = false and article.user_id = ?', user_id).joins(:article).where(articles: {id: 1}) }
+  scope :accepteds_and_user_created, -> (user_id) { where(accepted: true).or(Comment.where(accepted: false, user_id: user_id))}
 end

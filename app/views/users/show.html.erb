@@ -1,10 +1,28 @@
 <h2>User mail : <%= @user.email %></h2><br>
 <h3>Username : <%= @user.username %></h3>
 
+<div id='followers'>
+  <b>Following(<%= @user.following.count %>)</b>
+  <b>Follower(<%= @user.followers.count %>)</b>
+</div>
+
+<% if user_signed_in? && @user != current_user %>
+  <p><%= render 'follow_form' %></p>
+<% end %>
+
+
 <ul>
   <% @articles.each do |article| %>
     <li>
       <%= link_to article.title, article_path(article) %> created at <%= article.created_at %>
+    </li>
+    <% end %>
+</ul>
+<h2>Comments</h2>
+<ul>
+  <% @comments.each do |comment| %>
+    <li>
+      <%= link_to comment.title, article_path(comment.article) %> created at <%= comment.created_at %>
     </li>
   <% end %>
 </ul>

@@ -1,5 +1,7 @@
 <p id="notice"><%= notice %></p>
+<div id="info">
 
+</div>
 <p>
   <strong>Title:</strong>
   <%= @article.title %>
@@ -14,36 +16,45 @@
   <strong>Visible:</strong>
   <%= @article.visible %>
 </p>
-
+<p> Vote(<strong id="vote"><%= @article.vote %></strong>)
+  <% if user_signed_in? && @user != current_user %>
+    <%= link_to '👍', vote_plus_article_path(@article), method: :patch, class: 'btn btn-primary', remote: true %>
+    | <%= link_to '👎', vote_minus_article_path(@article), method: :patch, class: 'btn btn-primary', remote: true %>
+  <% end %>
+</p>
 
 <h2>Comments</h2>
-
-<% if @comments.any? %>
+<div class="comments">
   <% @comments.each do |comment| %>
-    <p><%= comment.title %></p>
-    <p><%= comment.content %></p>
+
+    <hr>
+    <div class="card mb-3">
+      <div class="card-header">
+        Username:<%= comment.user.username %>
+        <% unless comment.accepted %>
+          <span class="badge badge-pill badge-info float-right">
+          Waiting for approval
+        </span>
+        <% end %>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title"><%= comment.title %></h5>
+        <p class="card-text">
+          <%= comment.content %>
+        </p>
+      </div>
+    </div>
     <hr>
   <% end %>
-<% else %>
+</div>
+
+<% unless @comments.any? %>
   <p>There is no comment</p>
 <% end %>
+
 <h2>Add a comment</h2>
 
-<%= form_with model: [@article, @article.comments.build] do |form| %>
-  <p>
-    <%= form.label :title %>
-    <%= form.text_field :title %>
-  </p>
-  <p>
-    <%= form.label :content %>
-    <%= form.text_area :content %>
-  </p>
-
-  <p>
-    <%= form.submit %>
-  </p>
-<% end %>
-
+<%= render 'comments/form' %>
 
 <%= link_to 'Edit', edit_article_path(@article) %> |
 <%= link_to 'Back', articles_path %>
