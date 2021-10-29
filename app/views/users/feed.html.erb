@@ -1,15 +1,19 @@
-<h1>Your timeline</h1>
-
-<ul>
-  <% @articles.each do |article| %>
-    <% if user_signed_in? %>
-      <li>
-        <%= link_to article.title, article_path(article) %>  <%= article.content.truncate(100) %>
-        by <%= article.user.username %> added by
-        <%= link_to article.user.email, user_path(article.user) %>
-      </li>
-    <% else %>
-      <li><%= article.title %> by <%= article.user %></li>
+<% @articles.each do |article| %>
+  <% if user_signed_in? %>
+    <div class="card text-center">
+      <div class="card-header">
+        by <%= article.user.username %>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">
+          <li><%= article.title %></h5>
+        <p class="card-text"><%= article.content.truncate(100) %></p>
+        <%= link_to "read more", article_path(article),class:"btn btn-primary"  %></a>
+      </div>
+      <div class="card-footer text-muted">
+        <%= time_ago_in_words(article.created_at) %> ago
+      </div>
+    </div>
+    <br>
     <% end %>
   <% end %>
-</ul>

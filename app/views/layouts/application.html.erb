@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta charset="UTF-8">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -13,7 +14,7 @@
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
 
-  <%#= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
   <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
 
   <style>
@@ -48,6 +49,7 @@
               Hi <strong><%= current_user.username %></strong></a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <%= link_to 'Dashboard', dashboard_path, class: 'dropdown-item' %>
+              <%= link_to "Users", users_path, class: 'dropdown-item' %>
               <%= link_to 'Edit profile', edit_user_registration_path, class: 'dropdown-item' %>
               <%= link_to "Logout", destroy_user_session_path, :method => :delete, class: 'dropdown-item' %>
             </div>
@@ -57,7 +59,10 @@
     </div>
   </div>
 </nav>
-<%= yield %>
+
+<div class="container">
+  <%= yield %>
+</div>
 
 </body>
 </html>

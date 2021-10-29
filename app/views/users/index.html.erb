@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="row">
+    <% @users.each do |user| %>
+      <div class="col-4">
+        <div class="card mb-3">
+          <div class="row no-gutters">
+            <div class="col-md-12">
+              <div class="card-body">
+                <a href="<%=user_path(user.id)%>">
+                  <h5 class=""><%= user.username  %></h5>
+                </a>
+                <p class="card-text"><%= user.email  %></p>
+                <p class="card-text"><small class="text-muted">Registered at <%= (user.created_at.strftime("%Y-%m-%d")) %></small></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

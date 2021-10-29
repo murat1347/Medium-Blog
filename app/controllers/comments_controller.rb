@@ -9,6 +9,7 @@ class CommentsController < ApplicationController
 
     respond_to do |format|
       if @comment.save
+        CommentJob.set(wait: 2.minutes).perform_later(@comment.id)
         format.js
       else
         format.html { render action: "new" }
@@ -64,6 +65,6 @@ class CommentsController < ApplicationController
   private
 
   def comment_params
-    params.require(:comment).permit(:title, :content,:user_id)
+    params.require(:comment).permit(:title, :content, :user_id)
   end
 end
